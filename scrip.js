@@ -14,47 +14,45 @@ class Producto{
     }
 }
 
+
 //Instanciar (Crear) productos objetos
 
-const producto0 = new Producto(0, 'Ilustración', 500, 1, 'ilustración.jpg');
-const producto1 = new Producto(1, 'Impresión', 150, 100, 'impresionVinilo.jpg');
-const producto2 = new Producto(2, 'Óleo', 2000, 1, 'CuadroÓleo.jpg');
-const producto3 = new Producto(3, 'PinturaAcrilica', 1000, 1, 'CuadroAcrilico.jpg');
-const producto4 = new Producto(4, 'Acuarela', 800, 1, 'Acuarela.jpg');
+const producto0 = new Producto(0, 'Ilustración', 500, 10, 'ilustración.jpg');
+const producto1 = new Producto(1, 'Impresión', 150, 1000, 'impresionVinilo.jpg');
+const producto2 = new Producto(2, 'Óleo', 2000, 5, 'CuadroÓleo.jpg');
+const producto3 = new Producto(3, 'PinturaAcrilica', 1000, 10, 'CuadroAcrilico.jpg');
+const producto4 = new Producto(4, 'Acuarela', 800, 10, 'Acuarela.jpg');
 
-const productos = [producto0, producto1, producto2, producto3]
+const productos = [producto0, producto1, producto2, producto3, producto4];
 
-productos.push(producto4)
 
 //Función para insertar Cards con información DOM
 
-const cardComun = (listaStock) => {
+/* const cardComun = (listaStock) => {
     for (elem of listaStock) {
-        let card = document.createElement("div") //<div> </div>
+        let card = document.createElement("div");
         card.innerHTML = `<h2>Comprá ${elem.nombre}</h2>
-                            <input type = "button" value = "comprame" onclick = "elem.restaStock()" >`
+                        <input type = "button" value = "comprame" onclick = "elem.restaStock()">`
         document.body.append(card)                                
     }
-}
-
-/* Card sin Boostrap - ver en HTML */
-
-//cardComun(productos)
+} */
 
 //Card con Boostrap
 
 const cardBoostrap = (listaStock) => {
     for (e of listaStock) {
-        let card = document.createElement("div")
-        card.innerHTML=`<div class="card" style="width: 18rem;">
+        let card = document.createElement("div");
+        card.innerHTML = `<div class="card text-center  mb-3" style="width: 18rem;">
                             <img class="card-img-top" src="./img/${e.imagen}"  alt="Acá va la imagen de ${e.nombre}">
                             <div class="card-body">
-                                <h5 class="card-title">${e.nombre}</h5>
-                                <p class="card-text">Llevalo por tan solo ${e.precio}</p>                                
-                                <input type="button" onclick="agregaCarrito(${e.id})" class="btn btn-primary" value="Compra ya, sólo quedan ${e.stock}">
+                            <h5 class="card-title">${e.nombre}</h5>
+                            <p class="card-text">Llevalo por tan solo ${e.precio}</p>                                
+                            <input type="button" onclick="agregaCarrito(${e.id})" class="btn btn-dark" data-bs-toggle="button" value="Agrega al carrito">
                             </div>
-                        </div>`
+                        </div>`;
+        
         document.body.append(card)
+        
     }
 }
 
@@ -65,13 +63,66 @@ const arrayCarrito = []
 class ObjCarrito{
     constructor(producto, cant) {
         this.producto = producto;
-        this.cantidad = cant
+        this.cantidad = cant;
     }
     sumaStock() {
-    history.cantidad=this.cantidad + 1
+    this.cantidad=this.cantidad + 1
     }
 }
 
-function agregaCarrito(producto) {
+/* function agregaCarrito(prod) {
+    arrayCarrito.push(prod)
+} */
+
+function agregaCarrito(prod) {
     
+    let existeEncarrito = arrayCarrito.find(e => e.producto == prod)//obj producto =1 cant=1
+    // Si el find devuelve un valor, el producto ya estaba en carrito -->Hay que sumar stock
+    //Si el find devuelve undefined, es que no lo encontró --> hay que insertarlo
+    if (existeEncarrito != undefined) {
+        //Si entra acá, es porque encontró el objeto en cuestión en el carrito
+        let posicion = arrayCarrito.findIndex(elem => elem.producto == existeEncarrito.producto)
+        arrayCarrito[posicion].sumaStock()
+        console.table(arrayCarrito)
+
+    } else {
+        //Si entra acá, es porque el metódo find devolvio undefined por no haber encontrado coincidencia.
+        const alCarrito = new ObjCarrito(prod, 1)
+        arrayCarrito.push(alCarrito)
+        console.table(arrayCarrito)
+    }
+
 }
+
+function verCarrito() {
+    document.body.innerHTML = ``
+    
+    for (item of arrayCarrito) { //producto=0, cant=1/2/3
+        let card = document.createElement("div")
+        let datosProd = productos.find(elem => elem.id == item.producto)
+
+        card.innerHTML = `<div class="card" style="widh: 18rem;">
+                            <img src="./img/${datosProd.imagen}" class="card-img-top" alt="Acá va la imagen de ${datosProd.nombre}">
+                            <div class="card-body">
+                                <h5 class="card-title">Lleva ${datosProd.nombre}</h5>
+                                <p class="card-text">Te llevas ${item.cantidad}unidades</p>    
+                            </div>
+                        </div>`
+        
+        document.body.append(card)
+    }
+}
+
+const carrito = []
+
+const arrayProductos = [producto0, producto1, producto2, producto3, producto4]
+
+const guardarLS = (clave, valor) => { localStorage.setItem(clave, valor) }
+
+for (const producto of arrayProductos) {
+    guardarLS(producto.id, JSON.stringify(producto))
+}
+    
+
+
+
