@@ -14,7 +14,6 @@ class Producto{
     }
 }
 
-
 //Instanciar (Crear) productos objetos
 
 const producto0 = new Producto(0, 'Ilustración', 500, 10, 'ilustración.jpg');
@@ -27,16 +26,6 @@ const productos = [producto0, producto1, producto2, producto3, producto4];
 
 
 //Función para insertar Cards con información DOM
-
-/* const cardComun = (listaStock) => {
-    for (elem of listaStock) {
-        let card = document.createElement("div");
-        card.innerHTML = `<h2>Comprá ${elem.nombre}</h2>
-                        <input type = "button" value = "comprame" onclick = "elem.restaStock()">`
-        document.body.append(card)                                
-    }
-} */
-
 //Card con Boostrap
 
 const cardBoostrap = (listaStock) => {
@@ -47,7 +36,7 @@ const cardBoostrap = (listaStock) => {
                             <div class="card-body">
                             <h5 class="card-title">${e.nombre}</h5>
                             <p class="card-text">Llevalo por tan solo ${e.precio}</p>                                
-                            <input type="button" onclick="agregaCarrito(${e.id})" class="btn btn-dark" data-bs-toggle="button" value="Agrega al carrito">
+                            <input type="button" onclick="toastCarrito(${e.id})" class="btn btn-dark" data-bs-toggle="button" value="Agrega al carrito">
                             </div>
                         </div>`;
         
@@ -57,6 +46,16 @@ const cardBoostrap = (listaStock) => {
 }
 
 cardBoostrap(productos)
+
+function toastCarrito(prod) {
+Toastify({
+    text: `Agregado ${prod} al carrito`,
+    duration: 3000,
+    gravity: "bottom", // `top` or `bottom`
+    position: "right" // `left`, `center` or `right`
+
+}).showToast();
+}
 
 const arrayCarrito = []
 
@@ -70,15 +69,10 @@ class ObjCarrito{
     }
 }
 
-/* function agregaCarrito(prod) {
-    arrayCarrito.push(prod)
-} */
-
 function agregaCarrito(prod) {
     
     let existeEncarrito = arrayCarrito.find(e => e.producto == prod)//obj producto =1 cant=1
-    // Si el find devuelve un valor, el producto ya estaba en carrito -->Hay que sumar stock
-    //Si el find devuelve undefined, es que no lo encontró --> hay que insertarlo
+    
     if (existeEncarrito != undefined) {
         //Si entra acá, es porque encontró el objeto en cuestión en el carrito
         let posicion = arrayCarrito.findIndex(elem => elem.producto == existeEncarrito.producto)
@@ -113,7 +107,6 @@ function verCarrito() {
     }
 }
 
-const carrito = []
 
 const arrayProductos = [producto0, producto1, producto2, producto3, producto4]
 
