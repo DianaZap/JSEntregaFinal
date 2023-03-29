@@ -8,21 +8,17 @@ class Producto{
         this.stock = stock;
         this.imagen = imagen;
     }
-    restaStock() {
-        this.stock = this.stock - 1
-        console.log(`el stock de ${this.nombre} ha sido actualizado`)
-    }
 }
 
 //Instanciar (Crear) productos objetos
 
-const producto0 = new Producto(0, 'Ilustración', 500, 10, 'ilustración.jpg');
-const producto1 = new Producto(1, 'Impresión', 150, 1000, 'impresionVinilo.jpg');
-const producto2 = new Producto(2, 'Óleo', 2000, 5, 'CuadroÓleo.jpg');
-const producto3 = new Producto(3, 'PinturaAcrilica', 1000, 10, 'CuadroAcrilico.jpg');
-const producto4 = new Producto(4, 'Acuarela', 800, 10, 'Acuarela.jpg');
+const ilustracion = new Producto(0, 'Ilustración', 500, 10, 'ilustración.jpg');
+const impresion = new Producto(1, 'impresión', 150, 1000, 'impresionVinilo.jpg');
+const oleo= new Producto(2, 'Óleo', 2000, 5, 'CuadroÓleo.jpg');
+const pinturaAcrilica = new Producto(3, 'PinturaAcrilica', 1000, 10, 'CuadroAcrilico.jpg');
+const acuarela = new Producto(4, 'Acuarela', 800, 10, 'Acuarela.jpg');
 
-const productos = [producto0, producto1, producto2, producto3, producto4];
+const productos = [ilustracion, impresion, oleo, pinturaAcrilica,acuarela];
 
 
 //Función para insertar Cards con información DOM
@@ -36,26 +32,15 @@ const cardBoostrap = (listaStock) => {
                             <div class="card-body">
                             <h5 class="card-title">${e.nombre}</h5>
                             <p class="card-text">Llevalo por tan solo ${e.precio}</p>                                
-                            <input type="button" onclick="toastCarrito(${e.id})" class="btn btn-dark" data-bs-toggle="button" value="Agrega al carrito">
+                            <button  type="button" class="btn btn-dark" onclick="agregaCarrito(${e.id})"  data-bs-toggle="button" >Agrega al carrito</button>
                             </div>
                         </div>`;
         
-        document.body.append(card)
-        
+        document.body.append(card);
     }
 }
 
 cardBoostrap(productos)
-
-function toastCarrito(prod) {
-Toastify({
-    text: `Agregado ${prod} al carrito`,
-    duration: 3000,
-    gravity: "bottom", // `top` or `bottom`
-    position: "right" // `left`, `center` or `right`
-
-}).showToast();
-}
 
 const arrayCarrito = []
 
@@ -108,11 +93,19 @@ function verCarrito() {
 }
 
 
-const arrayProductos = [producto0, producto1, producto2, producto3, producto4]
+const arrayProductos = [ilustracion, impresion, oleo, pinturaAcrilica,acuarela]
 
 const guardarLS = (clave, valor) => { localStorage.setItem(clave, valor) }
 
 for (const producto of arrayProductos) {
     guardarLS(producto.id, JSON.stringify(producto))
 }
-    
+
+function toastCarrito (prod) {
+Toastify({
+    text: `Agregado ${prod} al carrito`,
+    duration: 3000,
+    gravity: "bottom", // `top` or `bottom`
+    position: "right", // `left`, `center` or `right`
+}).showToast();
+}
