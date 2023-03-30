@@ -1,4 +1,9 @@
-//Class moldeadora de objetos producto
+
+const shopContent = document.getElementById("shopContent");
+const verCarrito = document.getElementById("verCarrito");
+const modalContainer = document.getElementById("modal-container");
+
+//Creo objeto
 
 class Producto{
     constructor(id, nombre, precio, stock, imagen) {
@@ -24,23 +29,106 @@ const productos = [ilustracion, impresion, oleo, pinturaAcrilica,acuarela];
 //Función para insertar Cards con información DOM
 //Card con Boostrap
 
-const cardBoostrap = (listaStock) => {
-    for (e of listaStock) {
+const cardBoostrap = (product) => {
+    for (e of product) {
         let card = document.createElement("div");
-        card.innerHTML = `<div class="card text-center  mb-3" style="width: 18rem;">
-                            <img class="card-img-top" src="./img/${e.imagen}"  alt="Acá va la imagen de ${e.nombre}">
-                            <div class="card-body">
-                            <h5 class="card-title">${e.nombre}</h5>
-                            <p class="card-text">Llevalo por tan solo ${e.precio}</p>                                
-                            <button  type="button" class="btn btn-dark" onclick="agregaCarrito(${e.id})"  data-bs-toggle="button" >Agrega al carrito</button>
+        card.innerHTML = `<div class=conteiner position-relative>
+                        <div class="card w-100 mb-3 position-relative">
+                            <div class="row g-0">
+                                <div class=" card-body col-md-4">
+                                    <img src="./img/${e.imagen}" class="card-img-top" alt="Acá va la imagen de ${e.nombre}">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">${e.nombre}</h5>
+                                        <p class="card-text">Llevalo por tan solo ${e.precio}</p>                              
+                                        <button  type="button" class="btn btn-dark" onclick="comprar"${e.id})"  data-bs-toggle="button" >comprar</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>`;
+                        </div>
+                    </div>`;
         
         document.body.append(card);
-    }
-}
 
+        shopContent.append(card);
+        
+    };
+};
+    
 cardBoostrap(productos)
+
+
+
+/* let comprar = document.createElement("button");
+comprar.innerText = "comprar";
+comprar.innerHTML = "comprar"; */
+
+content.append(comprar);
+
+comprar.addEventListener("click", () => {
+    carrito.push({
+        id: products.id,
+        img: products.img,
+        nombre: products.precio,
+    });
+    console.log(carrito);
+});
+
+
+
+
+verCarrito.addEventListener("click", () => {
+    modalContainer.style.display = "flex";
+    const modalHeader = document.createElement("div");
+    modalHeader.className = "modal-header"
+    modalHeader.innerHTML = `
+    <h1 class="modal-header-title">Carrito.</h1>
+    `;
+    modalContainer.append(modalHeader);
+
+    const modalbutton = document.createElement("h1");
+    modalbutton.innerText = "x";
+    modalbutton.className = "modal-header-button";
+
+    modalbutton.addEventListener("click", () => {
+        modalContainer.style.display = "none";
+    });
+
+    modalHeader.append(modalbutton);
+
+    carrito.forEach((product) => {
+        let carritoContent = document.createElement("div");
+        carrito.className = "modal-content"
+        carrito.innerHTML = `
+                <img src="${product.img}>
+                <h3>${product.nombre}</h3>
+                <p>${product.precio}$</p>
+            `;
+
+        modalContainer.append(carritoContent);
+    });
+
+    const total = carrito.reduce((acc, el) => acc + el.precio, 0);
+
+    const totalBuying = documen.createElement("div")
+    totalBuying.className = "total-content"
+    totalBuying.innerHTML = `total a pagar: ${total}$`;
+    modalContainer.append(totalBuying);
+});
+
+
+
+
+/* let carrito = [];
+
+productos.forEach((comprar) => {
+    let content = document.createElement("div");
+    content.innerHTML = `
+    `
+});
+
+
 
 const arrayCarrito = []
 
@@ -78,7 +166,7 @@ function verCarrito() {
     
     for (item of arrayCarrito) { //producto=0, cant=1/2/3
         let card = document.createElement("div")
-        let datosProd = productos.find(elem => elem.id == item.producto)
+        let datosProd = productos.find(elem => elem.id === item.producto)
 
         card.innerHTML = `<div class="card" style="widh: 18rem;">
                             <img src="./img/${datosProd.imagen}" class="card-img-top" alt="Acá va la imagen de ${datosProd.nombre}">
@@ -90,8 +178,7 @@ function verCarrito() {
         
         document.body.append(card)
     }
-}
-
+} */
 
 const arrayProductos = [ilustracion, impresion, oleo, pinturaAcrilica,acuarela]
 
@@ -100,6 +187,15 @@ const guardarLS = (clave, valor) => { localStorage.setItem(clave, valor) }
 for (const producto of arrayProductos) {
     guardarLS(producto.id, JSON.stringify(producto))
 }
+
+let carrito1 = [];
+const divisa = '$';
+const DOMitems = document.querySelector('#items');
+const DOMcarrito = document.querySelector('#carrito');
+const DOMtotal = document.querySelector('#total');
+const DOMbotonVaciar = document.querySelector('#boton-vaciar');
+
+
 
 function toastCarrito (prod) {
 Toastify({
