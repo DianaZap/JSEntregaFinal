@@ -20,32 +20,28 @@
 
     <body>
 
-        <!-- navBAr -->
-
+        <!-- navBar -->
         <div id="nav-container" class="sticky-top text-bg-dark p-3">
             <nav class="navbar">
                 <h1 class="navb-logo">ZasaArte</h1>
-                <h1 class="ver-carrito text-end" id="verCarrito">🛒
+                <h1 id="verCarrito" class="text-end"  type="button">
+                    <i  class="bi bi-basket2"> <span id="cantidadCarrito" class="cantidad-carrito"></span></i>
+                    </h1>
             </nav>
-        </div>       
-
-        <!-- Productos-->
-
-        <div class="container" id="stock">
-            <div class="row class=text-center">
-                <h2 class="col-sm-8 row">Stock Productos</h2>
-                
+        </div>
 
         <!-- shop content -->
         
-        <div id="shopContent" class="shopContent"></div>
+        <div id="shopContent" class="shop-content"></div>
 
         <!-- Modal container -->
 
             <div id="modal-container" class="modal-container"></div>
                 
         </div>
-
+        
+        <script src="./carrito.js"></script>
+        <script src="./products.js"></script>
         <script src="./script.js"></script>
 
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
